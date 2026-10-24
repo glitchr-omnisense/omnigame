@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * Omnigame in plain PHP: no bundle, no container, no framework. A registry
+ * of one provider answering from games and a library it holds; a search, a
+ * game found by its GOG number, a player's library and ownership; then a
+ * provider's JSON call answered with no network. Prints what happened and
+ * every class and file PHP loaded, as JSON.
+ */
+
+use Omnigame\Exception\ProviderException;
+use Omnigame\Http\JsonClient;
+use Omnigame\Model\Game;
+use Omnigame\Model\GameRef;
+use Omnigame\Model\Identifiers;
+use Omnigame\Model\OwnedGame;
+use Omnigame\Model\Platform;
+use Omnigame\Model\Price;
+use Omnigame\Model\Query;
+use Omnigame\Registry;
+use Omnigame\Testing\FixedProviderFactory;
+use Omnigame\Testing\RecordedHttpClient;
+
+require getenv('OMNIGAME_AUTOLOAD') ?: '/harness/vendor/autoload.php';
+
+$games = [
+    new Game('Portal 2', Identifiers::of(['steam' => 620, 'igdb' => 72]), 'fixed', 'https://example.org/portal-2', released: new DateTimeImmutable('2011-04-18'), developers: ['Valve'], platforms: Platform::fromLabels(['windows', 'osx', 'linux', 'PlayStation 3']), price: new Price(969, 'EUR')),
+    new Game('The Witcher: Enhanced Edition', Identifiers::of(['gog' => 1207658924]), 'fixed', price: new Price(119, 'EUR', 799, 85)),
+];
+$registry = new Registry([new FixedProviderFactory($games, ['player-1' => [new OwnedGame(Identifiers::of(['steam' => 620]), 'Portal 2', 1250)]])], [
+    'store' => ['factory' => 'fixed'],
+]);
+
+$report['capabilities'] = $registry->get('store')->capabilities()->toArray();
+$report['search'] = array_map(static fn (Game $game) => $game->title, $registry->search('store')->search(new Query('portal')));
+$report['game'] = $registry->game(GameRef::gog(1207658924))?->toArray();
+$report['platforms'] = array_map(static fn (Platform $p) => $p->value, $games[0]->platforms);
+$report['library'] = array_map(static fn (OwnedGame $owned) => $owned->toArray(), $registry->library('store')->library('player-1'));
+$report['owns'] = [$registry->ownership('store')->owns('player-1', GameRef::steam(620)), $registry->ownership('store')->owns('player-1', GameRef::steam(400))];
+
+$http = RecordedHttpClient::routes([
+    '~^GET https://api\.example\.org/games/1~' => [200, '{"name": "Portal 2", "release": {"date": "2011-04-18"}, "developers": [{"name": "Valve"}, "not an object"]}'],
+    '~^GET https://api\.example\.org/games/3~' => [500, '<h1>Internal error</h1>'],
+]);
+$json = new JsonClient($http, 'Example', ['User-Agent' => 'omnigame-bare/1.0']);
+$data = $json->get('https://api.example.org/games/1', ['key' => 'not-a-real-key']);
+$report['json'] = [$data?->string('name'), $data?->date('release.date')?->format('Y'), $data?->strings('developers', 'name'), $http->header('User-Agent')];
+$report['json-404'] = $json->get('https://api.example.org/games/2');
+try {
+    $json->get('https://api.example.org/games/3', ['key' => 'not-a-real-key']);
+} catch (ProviderException $e) {
+    $report['json-error'] = $e->getMessage();
+}
+
+echo json_encode($report + ['loaded' => [
+    'symbols' => [...get_declared_classes(), ...get_declared_interfaces(), ...get_declared_traits()],
+    'files' => array_map('realpath', get_included_files()),
+    'eager' => array_map('realpath', array_values(is_file($f = dirname((string) (new ReflectionClass(Composer\Autoload\ClassLoader::class))->getFileName()).'/autoload_files.php') ? require $f : [])),
+]], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), "\n";

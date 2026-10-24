@@ -1,0 +1,54 @@
+{
+    "name": "omniscient/omnigame",
+    "type": "library",
+    "description": "Omnigame: a game's presence on the stores, read under any PHP host - its store record (texts, dates, studios, platforms, price, pictures, scores, identifiers on other stores), a search by title, a player's library and whether a player owns a game, behind contracts by capability. Read only: nothing is bought, granted or written. Providers are packages of their own (omnigame/steam, omnigame/gog, omnigame/itch, omnigame/igdb, omnigame/rawg); the Symfony and Laravel bridges live in omnibridge.",
+    "keywords": ["game", "games", "steam", "gog", "itch", "igdb", "rawg", "store", "library", "framework-agnostic", "omnigame"],
+    "homepage": "https://github.com/glitchr-studio/omnigame",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Meyer",
+            "email": "marco.meyer@glitchr.io"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/http-client-contracts": "^3.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0",
+        "symfony/http-client": "^6.4|^7.0|^8.0"
+    },
+    "suggest": {
+        "omnigame/steam": "Steam: the store's records and search (no key), a player's library and ownership (Web API key)",
+        "omnigame/gog": "GOG: the catalogue's records and search (no key)",
+        "omnigame/itch": "itch.io: a game page's record (no key), whether a player owns one of your games (API key)",
+        "omnigame/igdb": "IGDB: the catalogue, with identifiers on the stores (Twitch client credentials)",
+        "omnigame/rawg": "RAWG: the catalogue, with the stores selling a game (API key)",
+        "omniscient/omnibridge": "The host contracts; omnibridge/symfony and omnibridge/laravel wire omnigame into their host when a site needs it"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnigame\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/",
+            "/docker/",
+            "/bin/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omnigame\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-1.x": "1.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
