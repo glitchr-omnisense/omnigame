@@ -1,9 +1,9 @@
 {
-    "name": "omniscient/omnigame",
+    "name": "omnisense/omnigame",
     "type": "library",
     "description": "Omnigame: a game's presence on the stores, read under any PHP host - its store record (texts, dates, studios, platforms, price, pictures, scores, identifiers on other stores), a search by title, a player's library and whether a player owns a game, behind contracts by capability. Read only: nothing is bought, granted or written. Providers are packages of their own (omnigame/steam, omnigame/gog, omnigame/itch, omnigame/igdb, omnigame/rawg); the Symfony and Laravel bridges live in omnibridge.",
     "keywords": ["game", "games", "steam", "gog", "itch", "igdb", "rawg", "store", "library", "framework-agnostic", "omnigame"],
-    "homepage": "https://github.com/glitchr-studio/omnigame",
+    "homepage": "https://github.com/glitchr-omnisense/omnigame",
     "license": "MIT",
     "authors": [
         {
@@ -26,7 +26,10 @@
         "omnigame/itch": "itch.io: a game page's record (no key), whether a player owns one of your games (API key)",
         "omnigame/igdb": "IGDB: the catalogue, with identifiers on the stores (Twitch client credentials)",
         "omnigame/rawg": "RAWG: the catalogue, with the stores selling a game (API key)",
-        "omniscient/omnibridge": "The host contracts; omnibridge/symfony and omnibridge/laravel wire omnigame into their host when a site needs it"
+        "omnisense/omnibridge": "The host contracts; omnibridge/symfony and omnibridge/laravel wire omnigame into their host when a site needs it"
+    },
+    "replace": {
+        "omniscient/omnigame": "self.version"
     },
     "autoload": {
         "psr-4": {

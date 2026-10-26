@@ -1,7 +1,7 @@
 # Writing a provider
 
 A provider is a package `omnigame/<name>`, namespace `Omnigame\<Name>\`, requiring
-`omniscient/omnigame` and `symfony/http-client`, written as omnifilm's are: a factory extending
+`omnisense/omnigame` and `symfony/http-client`, written as omnifilm's are: a factory extending
 `ProviderFactory` (taking `?HttpClientInterface`), a provider implementing `ProviderInterface` and
 the capability interfaces it has, honest `capabilities()` (a library or ownership offered only when
 the key it needs is configured), calls through `Http\JsonClient`, answers read with `Http\Data`,

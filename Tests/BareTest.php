@@ -7,7 +7,7 @@ use Omnigame\Registry;
 use Omnigame\Testing\BareTestCase;
 
 /**
- * omniscient/omnigame with no framework: the harness's bare script searches,
+ * omnisense/omnigame with no framework: the harness's bare script searches,
  * reads a game, a library and ownership, and makes a provider's JSON call,
  * in a PHP process of its own - nothing may load from outside the package
  * but Symfony's HTTP client contracts (interfaces only).
