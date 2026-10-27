@@ -56,8 +56,23 @@ through Epic Online Services by the game's own product, with that product's cred
 player's sign-in - something for the first studio with an EOS product to ask for. IGDB and RAWG
 give a game's Epic identifier meanwhile (`Scheme::Epic`).
 
-Writing one: [docs/providers.md](docs/providers.md). The harness: [docs/harness.md](docs/harness.md).
 The Symfony and Laravel wiring will live in omnibridge when a site needs it.
+
+## Documentation
+
+The manual, in `docs/`:
+
+- [Overview and providers](docs/index.md)
+- [Installation, in plain PHP](docs/installation.md)
+- [Symfony](docs/symfony.md) and [Laravel](docs/laravel.md)
+- [Models](docs/models.md): contracts, capabilities, the registry, every model and enum
+- Usage: [search](docs/usage-search.md), [store records and prices](docs/usage-catalogue.md), [players: libraries and ownership](docs/usage-players.md)
+- [Configuration reference](docs/configuration.md)
+- [Errors](docs/errors.md)
+- [Testing](docs/testing.md)
+- [The harness](docs/harness.md)
+- [Writing a provider](docs/providers.md)
+- [Verified, and not](docs/verified.md)
 
 ## Verified, and not
 
