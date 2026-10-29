@@ -48,14 +48,7 @@ There is no conformance suite shared by the providers.
 
 ## Known defects
 
-Listed where the behaviour is described, and in the family's defects list:
-
-- Steam and itch.io implement library and ownership without a key; the registry's getters do not
-  refuse them ([Models](models.md#capabilities)).
-- itch.io's prices: JPY read with two decimals, no thousands separator
-  ([Store records and prices](usage-catalogue.md#prices)).
-- `ProviderException` calls `mb_substr()` without `ext-mbstring` required
-  ([Installation](installation.md#requirements)).
+None left: those the manuals found were fixed on 2026-10-29.
 
 ## Responsibility
 

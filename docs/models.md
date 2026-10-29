@@ -55,12 +55,9 @@ provider's options. What a player is depends on the store: `Capabilities::$playe
 | igdb | igdb, steam, gog | - | `Data from IGDB.com` |
 | rawg | rawg | - | `Data from RAWG (rawg.io), with a link on every page that shows it` |
 
-> [!WARNING]
-> Known defect: Steam's and itch.io's providers always implement `LibraryInterface` and
-> `OwnershipInterface`, so without a `key` `Registry::library('steam')` returns the provider
-> (seen in the harness, 2026-10-27) and its `library()` then throws `InvalidConfigException`,
-> where the registry's typed getter is expected to refuse what `capabilities()` says is not there
-> (`library`/`ownership` false). Check `capabilities()->contracts()` first.
+`Registry::library()` and `::ownership()` give a provider only when its `capabilities()` says it
+can (`library`, `ownership` true), else a `NotSupportedException`: Steam's and itch.io's providers
+implement both interfaces, and without a `key` they are refused there.
 
 ## Factory and Config
 

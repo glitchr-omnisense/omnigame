@@ -69,13 +69,7 @@ Steam, GOG and itch.io give prices; IGDB and RAWG none.
 |---|---|---|
 | steam | `cc` = the country asked, else `country` | `price_overview`: `final`, `initial`, `discount_percent`; a free game is `0` in its currency, or `XXX` |
 | gog | `/products/{id}/prices?countryCode=...` (a second call) | the country's own currency, `finalPrice` and `basePrice`, the discount computed |
-| itch | none: the page's price as shown | `price` and `original_price` (`$2.00`, `€4,99`), the currency read from the symbol (`$` USD, `€` EUR, `£` GBP, `¥` JPY; USD when none) |
-
-> [!WARNING]
-> Known defect: itch.io's prices are read as two decimals whatever the currency and with no
-> thousands separator, so `¥500` becomes 50000 JPY minor units (JPY has none: 500 is expected) and
-> `$1,000.00` becomes 100 (one dollar) - seen on answers composed for the check in the harness,
-> 2026-10-27.
+| itch | none: the page's price as shown | `price` and `original_price` (`$2.00`, `€4,99`, `$1,000.00`, `¥500`), the currency read from the symbol (`$` USD, `€` EUR, `£` GBP, `¥` JPY; USD when none), in minor units (none for JPY), thousands separators read as such |
 
 A price is the store's at the moment it is read: sales change it. Cache it for hours, not days,
 and show where it comes from.

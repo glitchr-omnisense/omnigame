@@ -66,14 +66,15 @@ final class Registry
     {
         $provider = $this->get($name);
 
-        return $provider instanceof LibraryInterface ? $provider : throw NotSupportedException::capability($provider, $name, 'list a player\'s games');
+        // Offered only when it can be given: a library that needs a key the provider was not configured with is not.
+        return $provider instanceof LibraryInterface && $provider->capabilities()->library ? $provider : throw NotSupportedException::capability($provider, $name, 'list a player\'s games');
     }
 
     public function ownership(string $name): OwnershipInterface
     {
         $provider = $this->get($name);
 
-        return $provider instanceof OwnershipInterface ? $provider : throw NotSupportedException::capability($provider, $name, 'say whether a player owns a game');
+        return $provider instanceof OwnershipInterface && $provider->capabilities()->ownership ? $provider : throw NotSupportedException::capability($provider, $name, 'say whether a player owns a game');
     }
 
     /**
