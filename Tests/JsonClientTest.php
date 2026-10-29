@@ -65,4 +65,23 @@ final class JsonClientTest extends TestCase
         $this->expectException(UnreachableException::class);
         (new JsonClient(new MockHttpClient(static fn () => throw new TransportException('Could not resolve host')), 'Example'))->get('https://api.example.org/ok');
     }
+
+    /**
+     * Not reached: the message names the method and the path, and the HTTP client's reason
+     * without its address - Symfony's transport messages quote the URL, query and key included.
+     */
+    public function testAnUnreachableProviderIsNamedByItsPathNeverItsQuery(): void
+    {
+        $http = new MockHttpClient(static function (string $method, string $url): never {
+            throw new TransportException(\sprintf('Could not resolve host: api.steampowered.com for "%s".', $url));
+        });
+
+        try {
+            (new JsonClient($http, 'Steam'))->get('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/', ['key' => 'secret-steam-key', 'steamid' => '76561197960287930']);
+            self::fail('no exception');
+        } catch (UnreachableException $e) {
+            self::assertSame('Steam could not be reached for GET /IPlayerService/GetOwnedGames/v1/: Could not resolve host: api.steampowered.com.', $e->getMessage());
+            self::assertStringNotContainsString('secret-steam-key', $e->getMessage());
+        }
+    }
 }

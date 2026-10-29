@@ -20,8 +20,8 @@ skeleton that runs; replace `Work` with `Game`, `WorkRef` with `GameRef`):
    attribution and the terms' URLs. `game()` throws `NotSupportedException::ref()` for a scheme it
    does not resolve and returns `null` for a game it does not know.
 3. **Calls** go through `Http\JsonClient`, answers are read with `Http\Data`. A key goes in a
-   header when the store accepts one: a network error's message quotes the whole URL
-   ([Errors](errors.md#the-messages)).
+   header (or a body) when the store accepts one: messages leave the query out
+   ([Errors](errors.md#the-messages)), logs of the HTTP client and the previous exception do not.
 4. **The record**: prices in minor units with their ISO 4217 currency; platforms through
    `Platform::fromLabels()`; HTML stripped from summaries; the identifiers of every other store the
    source lists; what it does not give left empty.

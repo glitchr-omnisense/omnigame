@@ -50,8 +50,6 @@ There is no conformance suite shared by the providers.
 
 Listed where the behaviour is described, and in the family's defects list:
 
-- A network error's message holds the whole URL: Steam's Web API key, RAWG's key, IGDB's client
-  secret ([Errors](errors.md#the-messages)).
 - Steam and itch.io implement library and ownership without a key; the registry's getters do not
   refuse them ([Models](models.md#capabilities)).
 - itch.io's prices: JPY read with two decimals, no thousands separator

@@ -146,7 +146,8 @@ X-Moon [{"itch":"leafo\/x-moon"}] -, 0.00 USD,
   by leafo; https://leafo.itch.io/x-moon
 ```
 
-(run live on 2026-10-27, 06:18 UTC, in the harness: Steam's store could not be reached from the
+(the first line as it read then: since 2026-10-29 the message ends at the client's reason,
+without the URL - `... unexpected eof while reading.`; run live on 2026-10-27, 06:18 UTC, in the harness: Steam's store could not be reached from the
 harness's network that morning - the TLS connection was cut, twice - which shows what a network
 failure becomes; GOG answered in two calls, itch.io in one)
 
