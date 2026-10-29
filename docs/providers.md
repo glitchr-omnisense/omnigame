@@ -21,7 +21,10 @@ skeleton that runs; replace `Work` with `Game`, `WorkRef` with `GameRef`):
    does not resolve and returns `null` for a game it does not know.
 3. **Calls** go through `Http\JsonClient`, answers are read with `Http\Data`. A key goes in a
    header (or a body) when the store accepts one: messages leave the query out
-   ([Errors](errors.md#the-messages)), logs of the HTTP client and the previous exception do not.
+   ([Errors](errors.md#the-messages)), and so does the exception chain, but the HTTP client's own
+   logs do not. A provider that calls its own library wraps its failure as `JsonClient` does:
+   `Redaction::withoutArguments(new UnreachableException(..., 0, Redaction::copy($e,
+   Redaction::secrets($url, $options))))`.
 4. **The record**: prices in minor units with their ISO 4217 currency; platforms through
    `Platform::fromLabels()`; HTML stripped from summaries; the identifiers of every other store the
    source lists; what it does not give left empty.

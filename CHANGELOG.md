@@ -3,6 +3,13 @@
 ## Unreleased (1.x)
 
 ### Fixed
+- An `UnreachableException`'s chain no longer holds the key. Its previous exception was the HTTP
+  client's own, whose message quotes the whole URL (Steam's and RAWG's `key=`), and every trace
+  kept the arguments of the calls under it, the request's query, headers and body (IGDB's Twitch
+  `client_secret`) among them. The previous is now a copy of the client's exception
+  (`Http\Redaction::copy()`: the same class and code, the key's parameters, the URL's user part
+  and the request's secrets masked as `***`), and no trace of the chain keeps its arguments
+  (`Redaction::withoutArguments()`).
 - `Registry::library()` and `::ownership()` give a provider only when its `capabilities()` says it
   can: Steam and itch.io without a `key` are a `NotSupportedException` there, where the registry
   returned them and their `library()` then threw `InvalidConfigException`.
@@ -12,6 +19,9 @@
   Twitch `client_secret=` stood in the message.
 
 ### Added
+- `Omnigame\Http\Redaction`: a request's secrets (`secrets()`), a text without them (`text()`),
+  a failure's copy to wrap in its place (`copy()`), a trace without arguments
+  (`withoutArguments()`).
 - `ext-mbstring` in `composer.json`'s requirements: `ProviderException` shortens error bodies with
   `mb_substr()`, which a PHP built without mbstring did not have (no test: a requirement).
 - `Omnigame\Http\JsonClient::reason()`: an HTTP client's message without the addresses it quotes.

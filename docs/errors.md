@@ -47,8 +47,11 @@ then the answer's text (tags stripped, 300 characters at most); its code is 0.
 
 An `UnreachableException` names the method and the path too, then the HTTP client's reason without
 the address it quotes (`JsonClient::reason()`): Steam's Web API key and RAWG's key, which travel in
-the query, stay out of it. Its previous exception, the HTTP client's, keeps the client's own
-message, URL included: a log that writes the whole chain writes it too.
+the query, stay out of it. Its previous exception is a copy of the HTTP client's
+(`Http\Redaction::copy()`): the same class and code, the message with the URL's key parameters
+masked (`key=***`), its own previous copied the same way. Neither keeps its trace's arguments,
+where the request's query, headers and body stood (IGDB's Twitch `client_secret`): a log that
+writes the whole chain, arguments included (`zend.exception_ignore_args` off), holds no key.
 
 ## What to catch where
 
