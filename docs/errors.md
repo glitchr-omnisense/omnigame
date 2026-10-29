@@ -51,7 +51,8 @@ the query, stay out of it. Its previous exception is a copy of the HTTP client's
 (`Http\Redaction::copy()`): the same class and code, the message with the URL's key parameters
 masked (`key=***`), its own previous copied the same way. Neither keeps its trace's arguments,
 where the request's query, headers and body stood (IGDB's Twitch `client_secret`): a log that
-writes the whole chain, arguments included (`zend.exception_ignore_args` off), holds no key.
+writes the whole chain, arguments included (`zend.exception_ignore_args` off), holds no key. Nor does an error answered (a refused key, nothing there, a server error, a body
+that is not JSON): every exception `JsonClient::request()` throws leaves its trace's arguments out.
 
 ## What to catch where
 
